@@ -1,11 +1,11 @@
-'''Дан файл с расписанием занятий на неделю.
-Помимо названия предмета в нем также указано лекция это, или практическое занятие, или лабораторная работа.
- В одной строке может быть указаны только один предмет с информацией о нем.
- Посчитать, сколько за неделю проходит практических занятий, лекций и лабораторных работ.'''
-
-
-class EmptyFileException(Exception):
-    pass
+'''
+Дан файл с расписанием занятий на неделю.
+Помимо названия предмета в нем также указано лекция это, или практическое 
+занятие, или лабораторная работа.
+В одной строке может быть указаны только один предмет с информацией о нем.
+Посчитать, сколько за неделю проходит практических занятий, 
+лекций и лабораторных работ.
+'''
 
 
 with open("week.txt", "r") as f:
@@ -14,10 +14,11 @@ with open("week.txt", "r") as f:
 lecture = 0
 lab = 0
 practice = 0
+
 try:
     if not data:
-        raise EmptyFileException("Файл пуст")
-except EmptyFileException as empty:
+        raise FileNotFoundError("Файл пуст")
+except FileNotFoundError as empty:
     print(empty)
 else:
     for i in data:
@@ -31,4 +32,5 @@ else:
 with open("output.txt", "w") as output:
     print("Количество лекций: {}".format(lecture), file = output)
     print("Количество практик: {}".format(practice), file = output)
-    print("Количество лабораторных работ: {}".format(lab), file = output)
+    print("Кол-во лабораторных работ: {}".format(lab), file = output)
+    
