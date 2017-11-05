@@ -9,10 +9,7 @@
 import os
 import shutil
 
-path_input = input('Введите директорию: ', )+'\\'
-new_path = path_input.split('\\')
-filtred_path = list(filter(None, new_path))
-path_name = filtred_path[-1]+'_'
+path_input = input('Введите новую директорию: ', )+'\\'
 if not os.path.exists(path_input):
     os.makedirs(path_input)
 
@@ -27,6 +24,9 @@ with open('path1.txt', 'r') as f:
         for i in data:
             name = i[-1]
             shutil.copy(i, path_input, follow_symlinks=True)
+    old_path = data[1].split('\\')
+    filtred_path = list(filter(None, old_path))
+    path_name = filtred_path[-2]+'_'
 
 try:
     files_list = os.listdir(path_input)
