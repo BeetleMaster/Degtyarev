@@ -1,0 +1,36 @@
+'''
+Дан файл, которые содержит в себе пути до файлов, расположенных на жестком 
+диске. Написать скрипт, который создает резервные копии этих файлов и 
+складывает их в отдельную директорию, при этом приведите название файлов к виду: 
+<название папки откуда взяли файл>_<оригинальное название файла>.<расширение>
+'''
+
+
+import os
+import shutil
+
+path_input = input('Введите директорию: ', )+'\\'
+new_path = path_input.split('\\')
+filtred_path = list(filter(None, new_path))
+path_name = filtred_path[-1]+'_'
+if not os.path.exists(path_input):
+    os.makedirs(path_input)
+
+with open('path1.txt', 'r') as f:
+    try:
+        data = f.read().split()
+        if not data:
+            raise FileExistsError('Файл пуст')
+    except FileExistsError as empty:
+        print(empty)
+    else:
+        for i in data:
+            name = i[-1]
+            shutil.copy(i, path_input, follow_symlinks=True)
+
+try:
+    files_list = os.listdir(path_input)
+    for i in files_list:
+        os.renames(path_input+i, path_input+path_name+i)
+except FileExistsError:
+     print('Файлы уже существуют')
