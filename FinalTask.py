@@ -14,7 +14,6 @@ with open('new_path.txt', 'r') as d:
     new_dir = str(directory)
     if not os.path.exists(new_dir):
         os.makedirs(new_dir)
-d.close()
 
 with open('path.txt', 'r') as f:
     data = f.read().split()
