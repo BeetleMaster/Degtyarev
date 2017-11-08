@@ -9,29 +9,27 @@
 import os
 import shutil
 
+count = 0
+
 with open('new_path.txt', 'r') as d:
     directory = d.readline()
-    new_dir = str(directory)
-    if not os.path.exists(new_dir):
-        os.makedirs(new_dir)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 with open('path.txt', 'r') as f:
     data = f.read().split()
     if not data:
         print('Файл пуст')
+
     for i in data:
-        if '/' in i:
-            old_name = i.split('/')
-            new_name = old_name[-1]
-            old_path = i.split('/')
-            filter_path = list(filter(None, old_path))
-            path_name = filter_path[-2] + '_'
-            shutil.copy(i, new_dir + path_name + new_name, follow_symlinks=True)
-        else:
-            old_name = i.split('\\')
-            new_name = old_name[-1]
-            old_path = i.split('\\')
-            filter_path = list(filter(None, old_path))
-            path_name = filter_path[-2] + '_'
-            shutil.copy(i, new_dir + path_name + new_name, follow_symlinks=True)
+        try:
+            file_path = os.path.split(i)
+            file_name = file_path[-1]
+            directory_name = os.path.split(file_path[0])
+            new_path = os.path.join(directory, directory_name[-1]+'_'+file_name)
+            shutil.copy(i, new_path, follow_symlinks=True)
+        except (FileNotFoundError, IOError):
+            count += 1
+            
 print('Копирование выполнено')
+print('Количество неверных путей =', count)
